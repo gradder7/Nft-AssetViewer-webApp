@@ -1,26 +1,25 @@
+import { toast } from "react-toastify";
+
 const getAddressNFTs = async (endpoint, owner, contractAddress) => {
   if (owner) {
     let data;
     try {
       if (contractAddress) {
         console.log(contractAddress);
-
         data = await fetch(
           `${endpoint}/getNFTs?owner=${owner}&contractAddresses%5B%5D=${contractAddress}`
         ).then((data) => data.json());
       } else {
         console.log(owner);
-
         // data = await fetch(`${endpoint}/v1/getNFTs?owner=${owner}`).then(data => data.json())
         data = await fetch(
-          `${endpoint}/getNFTs?owner=${owner}&withMetadata=true&pageSize=10`
+          `${endpoint}/getNFTs?owner=${owner}&withMetadata=true&pageKey=nextPage&pageSize=16`
         ).then((data) => data.json());
         console.log(data);
       }
       // console.log("GETNFTS: ", data)
     } catch (e) {
-      console.log(e);
-
+      toast.error('Not valid');
       //   getAddressNFTs(endpoint, owner, contractAddress);
     }
     return data;
