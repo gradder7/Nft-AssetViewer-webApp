@@ -10,14 +10,16 @@ const Explore = () => {
   const [contractAddress, setContractAddress] = useState("");
   const [NFTs, setNFTs] = useState("");
   const [chain, setBlockchain] = useState("Ethereum");
+  const [loading, setLoading] = useState(false);
 
   const handleClick = () => {
     if (owner === "") {
       toast.error("Please Enter the address!");
       return;
     } else {
+      setLoading(true);
       toast("Getting NFT please...");
-      fetchNFTs(owner, setNFTs, chain, contractAddress);
+      fetchNFTs(owner, setNFTs, chain, contractAddress,setLoading);
     }
   };
   return (
@@ -59,28 +61,27 @@ const Explore = () => {
           </div>
         </div>
       </header>
-
-      <InfiniteScroll dataLength={NFTs.length}>
-        <section className="flex flex-wrap justify-center">
-          {NFTs ? (
-            NFTs.map((NFT) => {
-              return (
-                <NftCard
-                  key={NFT.value.id + NFT.value.contractAddress + "data"}
-                  image={NFT.value.image}
-                  id={NFT.value.id}
-                  title={NFT.value.title}
-                  description={NFT.value.description}
-                  address={NFT.value.contractAddress}
-                  attributes={NFT.value.attributes}
-                ></NftCard>
-              );
-            })
-          ) : (
-            <div>No NFTs found</div>
-          )}
-        </section>
-      </InfiniteScroll>
+      <section className="flex flex-wrap justify-center">
+        {loading ? (
+          <h1>Loading...</h1>
+        ) : NFTs ? (
+          NFTs.map((NFT) => {
+            return (
+              <NftCard
+                key={NFT.value.id + NFT.value.contractAddress + "data"}
+                image={NFT.value.image}
+                id={NFT.value.id}
+                title={NFT.value.title}
+                description={NFT.value.description}
+                address={NFT.value.contractAddress}
+                attributes={NFT.value.attributes}
+              ></NftCard>
+            );
+          })
+        ) : (
+          <div>No NFTs found</div>
+        )}
+      </section>
     </div>
   );
 };

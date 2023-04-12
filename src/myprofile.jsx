@@ -15,7 +15,7 @@ const MyProfile = () => {
   const [toggeleNftAsset, setToggleNftAsset] = useState("");
   const [NFTs, setNFTs] = useState();
 
-  useEffect(async () => {
+  const runfunc = useEffect(async () => {
     if (accountData) {
       const data = await fetchNFTs(accountData.address, setNFTs, chain);
     }
@@ -68,7 +68,7 @@ const MyProfile = () => {
               </button>
             </div>
           </header>
-          
+
           <div className="flex flex-wrap justify-center">
             {toggeleNftAsset === "nft" ? (
               NFTs ? (

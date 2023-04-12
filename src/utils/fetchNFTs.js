@@ -19,7 +19,7 @@ const getAddressNFTs = async (endpoint, owner, contractAddress) => {
       }
       // console.log("GETNFTS: ", data)
     } catch (e) {
-      toast.error('Not valid');
+      toast.error("Not valid address!");
       //   getAddressNFTs(endpoint, owner, contractAddress);
     }
     return data;
@@ -42,21 +42,30 @@ const getEndpoint = (chain) => {
   }
 };
 
-const fetchNFTs = async (owner, setNFTs, chain, contractAddress) => {
+const fetchNFTs = async (
+  owner,
+  setNFTs,
+  chain,
+  contractAddress,
+  setLoading
+) => {
   let endpoint = getEndpoint(chain);
-//   console.log("chain=>", getEndpoint(chain));
-//   console.log(chain);
+  //   console.log("chain=>", getEndpoint(chain));
+  //   console.log(chain);
   console.log(process.env.REACT_APP_ALCHEMY_ETHEREUM_ENDPOINT);
-//   let endpoint ="https://eth-mainnet.alchemyapi.io/v2/GGkq93jRTGzlbLTriKdvPu7DZlxHItlg";
+  //   let endpoint ="https://eth-mainnet.alchemyapi.io/v2/GGkq93jRTGzlbLTriKdvPu7DZlxHItlg";
   const data = await getAddressNFTs(endpoint, owner, contractAddress);
   console.log("my data", data);
-
+  if (data.totalCount === 0) {
+    toast.warn("No NFTs are in this address!");
+  }
   if (data.ownedNfts.length) {
     const NFTs = await getNFTsMetadata(data.ownedNfts, endpoint);
     console.log("NFTS metadata", NFTs);
     let fullfilledNFTs = NFTs.filter((NFT) => NFT.status == "fulfilled");
     console.log("NFTS", fullfilledNFTs);
     setNFTs(fullfilledNFTs);
+    setLoading(false);
   } else {
     setNFTs(null);
   }
@@ -88,6 +97,7 @@ const getNFTsMetadata = async (NFTS, endpoint) => {
         title: metadata.metadata.name,
         description: metadata.metadata.description,
         attributes: metadata.metadata.attributes,
+        floorPrice: metadata.contractMetadata.openSea.floorPrice,
       };
     })
   );

@@ -80,6 +80,9 @@ const Nav = () => {
       {accountData ? (
         <div className="flex items-center">
           <div className="flex mr-4 text-black gap-4">
+            <Link className="mr-2 " to="/">
+              Home
+            </Link>
             <Link className="mr-2 " to="/explore">
               Explore
             </Link>
