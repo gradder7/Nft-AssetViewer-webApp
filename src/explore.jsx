@@ -75,6 +75,7 @@ const Explore = () => {
                 description={NFT.value.description}
                 address={NFT.value.contractAddress}
                 attributes={NFT.value.attributes}
+                floorPrice={NFT.value.floorPrice}
               ></NftCard>
             );
           })

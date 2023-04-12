@@ -8,18 +8,18 @@ import ProfileImage from "./utils/profileImages";
 import { ClipboardIcon } from "@heroicons/react/outline";
 import AssetViewer from "./components/assetViewer";
 import InfiniteScroll from "react-infinite-scroll-component";
+import NftViewer from "./components/NftViewer";
 
 const MyProfile = () => {
   const [{ data: accountData, loading }, disconnect] = useAccount();
   const [chain, setBlockchain] = useState("Ethereum");
   const [toggeleNftAsset, setToggleNftAsset] = useState("");
-  const [NFTs, setNFTs] = useState();
 
-  const runfunc = useEffect(async () => {
-    if (accountData) {
-      const data = await fetchNFTs(accountData.address, setNFTs, chain);
-    }
-  }, [accountData && accountData.address, chain]);
+  // const runfunc = useEffect(async () => {
+  //   if (accountData) {
+  //     const data = await fetchNFTs(accountData.address, setNFTs, chain);
+  //   }
+  // }, [accountData && accountData.address, chain]);
 
   return (
     <div>
@@ -42,11 +42,7 @@ const MyProfile = () => {
                 ></ClipboardIcon>
               </div>
 
-              <div className="mt-4">
-                <p>
-                  NFTs:<span>{NFTs ? NFTs.length : 0}</span>
-                </p>
-              </div>
+              
               <ChainSelector setBlockchain={setBlockchain} chain={chain} />
             </div>
             <div className="mt-10">
@@ -71,23 +67,7 @@ const MyProfile = () => {
 
           <div className="flex flex-wrap justify-center">
             {toggeleNftAsset === "nft" ? (
-              NFTs ? (
-                NFTs.map((NFT) => {
-                  return (
-                    <NftCard
-                      key={NFT.value.id + NFT.value.contractAddress}
-                      image={NFT.value.image}
-                      id={NFT.value.id}
-                      title={NFT.value.title}
-                      description={NFT.value.description}
-                      address={NFT.value.contractAddress}
-                      attributes={NFT.value.attributes}
-                    ></NftCard>
-                  );
-                })
-              ) : (
-                <div>No NFTs found</div>
-              )
+              <NftViewer accountData={accountData} chain={chain}/>
             ) : toggeleNftAsset === "asset" ? (
               <AssetViewer address={accountData.address} />
             ) : (
