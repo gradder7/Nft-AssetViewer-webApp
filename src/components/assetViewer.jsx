@@ -4,7 +4,7 @@ import { AlchemyProvider } from "@ethersproject/providers";
 import logo from "../assets/images/crypto.png";
 import { formatUnits } from "@ethersproject/units";
 
-const AssetViewer = ({ address }) => {
+const AssetViewer = ({ address, userId }) => {
   const [tokens, setTokens] = useState([]);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const AssetViewer = ({ address }) => {
 
       const promises = Object.keys(networks).map(async (networkId) => {
         // const url = `https://api.covalenthq.com/v1/1/address/${address}/balances_v2/?key=${covalentAPIKey}&nft=false&no-nft-fetch=true&quote-currency=USD&page-size=1000`;
-        const url = `https://api.covalenthq.com/v1/1/address/0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0/balances_v2/?key=ckey_ae99d142074e43cca31f9537b17&nft=false&no-nft-fetch=true&quote-currency=USD&page-size=1000`;
+        const url = `${process.env.REACT_APP_COVALENT_API_END_POINT}/1/address/${userId}/balances_v2/?key=${process.env.REACT_APP_COVALENT_API_KEY}&nft=false&no-nft-fetch=true&quote-currency=USD&page-size=1000`;
         const response = await axios.get(url);
         const { data } = response;
 
@@ -79,7 +79,9 @@ const AssetViewer = ({ address }) => {
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-12">
-      <h2 className="text-3xl font-medium text-gray-900">Top Tokens</h2>
+      <h2 className="text-3xl text-center font-medium text-gray-900">
+        Top Tokens:
+      </h2>
       <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {tokens.map((token, index) => (
           <div

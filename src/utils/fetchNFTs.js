@@ -20,6 +20,7 @@ const getAddressNFTs = async (endpoint, owner, contractAddress) => {
       // console.log("GETNFTS: ", data)
     } catch (e) {
       toast.error("Not valid address!");
+
       //   getAddressNFTs(endpoint, owner, contractAddress);
     }
     return data;
@@ -32,13 +33,13 @@ const getEndpoint = (chain) => {
       return process.env.REACT_APP_ALCHEMY_ETHEREUM_ENDPOINT;
 
     case "Polygon":
-      return process.env.REACT_APP_ALCHEMY_POLYGON_ENDPOINT;
+      return process.env.REACT_APP_ALCHEMY_POLYGUN_ENDPOINT;
 
-    case "Mumbai":
-      return process.env.REACT_APP_ALCHEMY_MUMBAI_ENDPOINT;
+    case "Optimism":
+      return process.env.REACT_APP_ALCHEMY_OPTIMISM_ENDPOINT;
 
-    case "Rinkeby":
-      return process.env.REACT_APP_ALCHEMY_RINKEBY_ENDPOINT;
+    case "Arbitrum":
+      return process.env.REACT_APP_ALCHEMY_ARBITITUM_ENDPOINT;
   }
 };
 
@@ -53,12 +54,15 @@ const fetchNFTs = async (
   //   console.log("chain=>", getEndpoint(chain));
   //   console.log(chain);
   console.log(process.env.REACT_APP_ALCHEMY_ETHEREUM_ENDPOINT);
+  console.log(process.env.REACT_APP_ALCHEMY_POLYGUN_ENDPOINT);
+  console.log(process.env.REACT_APP_ALCHEMY_OPTIMISM_ENDPOINT);
+  console.log(process.env.REACT_APP_ALCHEMY_ARBITITUM_ENDPOINT);
   //   let endpoint ="https://eth-mainnet.alchemyapi.io/v2/GGkq93jRTGzlbLTriKdvPu7DZlxHItlg";
   const data = await getAddressNFTs(endpoint, owner, contractAddress);
   console.log("my data", data);
-  if (data.totalCount === 0) {
-    toast.warn("No NFTs are in this address!");
-  }
+  // if ( data.ownedNfts===[]) {
+  //   toast.warn("No NFTs are in this address!");
+  // }
   if (data.ownedNfts.length) {
     const NFTs = await getNFTsMetadata(data.ownedNfts, endpoint);
     console.log("NFTS metadata", NFTs);
@@ -68,6 +72,8 @@ const fetchNFTs = async (
     setLoading(false);
   } else {
     setNFTs(null);
+    toast.warn("No NFTs are in this address!");
+    setLoading(false);
   }
 };
 

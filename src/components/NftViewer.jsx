@@ -7,7 +7,10 @@ function NftViewer({ accountData, chain }) {
   const [NFTs, setNFTs] = useState();
   const [loading, setLoading] = useState(false);
 
-  let user = "0x928c2909847B884ba5Dd473568De6382b028F7b8";
+  let user = "0x928c2909847B884ba5Dd473568De6382b028F7b8";//etherium
+  // let user = "0x928c2909847B884ba5Dd473568De6382b028F7b8";//polygun//arbititum//etherium
+  // let user = "0xE618772486bca061e13dAf25cDee0371BAd1CE12"; //opmitism
+
   const runfunc = useEffect(async () => {
     setLoading(true);
     if (accountData) {
@@ -19,11 +22,7 @@ function NftViewer({ accountData, chain }) {
 
   return (
     <>
-      {/* <p>
-        NFTs:<span>{NFTs ? NFTs.length : 0}</span>
-      </p> */}
-
-      <div className="mt-4"></div>
+      <div className="mt-4 "></div>
       {loading ? (
         <h1>Loading...</h1>
       ) : NFTs ? (

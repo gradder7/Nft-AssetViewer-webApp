@@ -176,7 +176,7 @@ const NftCard = ({
 }) => {
   return (
     <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 px-2 mb-4 h-full">
-      <div className="bg-white rounded-md overflow-hidden shadow-lg hover:shadow-lg h-full">
+      <div className="bg-white rounded-md overflow-hidden shadow h-full cursor-pointer hover:shadow-2xl transition-shadow duration-300">
         <img
           className="w-full h-64 object-cover"
           key={id}

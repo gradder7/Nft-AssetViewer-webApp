@@ -11,15 +11,10 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import NftViewer from "./components/NftViewer";
 
 const MyProfile = () => {
+  let userId = "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0";
   const [{ data: accountData, loading }, disconnect] = useAccount();
   const [chain, setBlockchain] = useState("Ethereum");
   const [toggeleNftAsset, setToggleNftAsset] = useState("");
-
-  // const runfunc = useEffect(async () => {
-  //   if (accountData) {
-  //     const data = await fetchNFTs(accountData.address, setNFTs, chain);
-  //   }
-  // }, [accountData && accountData.address, chain]);
 
   return (
     <div>
@@ -69,7 +64,7 @@ const MyProfile = () => {
             {toggeleNftAsset === "nft" ? (
               <NftViewer accountData={accountData} chain={chain}/>
             ) : toggeleNftAsset === "asset" ? (
-              <AssetViewer address={accountData.address} />
+              <AssetViewer address={accountData.address} userId={userId} />
             ) : (
               <></>
             )}
